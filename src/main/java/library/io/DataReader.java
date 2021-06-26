@@ -26,14 +26,14 @@ public class DataReader {
         System.out.println("Wydawnictwo: ");
         String publisher = scanner.nextLine();
         System.out.println("Rok wydania: ");
-        int releaseDate = scanner.nextInt();
+        int year = scanner.nextInt();
         System.out.println("Ilość stron: ");
         int pages = scanner.nextInt();
         scanner.nextLine();
         System.out.println("ISBN: ");
         String isbn = scanner.nextLine();
 
-        return new Book(title, author, publisher, releaseDate, pages, isbn);
+        return new Book(title, publisher, author, year, author, isbn, pages);
     }
 
     public Magazine createMagazine(){
@@ -50,7 +50,7 @@ public class DataReader {
         System.out.println("Dzień: ");
         int day = getInt();
 
-        return new Magazine(title, publisher, language, year, month, day);
+        return new Magazine(title, publisher, year, month, day, language);
     }
 
     public int getInt(){

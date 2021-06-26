@@ -10,22 +10,15 @@ package library.model;
 
 public class Book extends Publication {
     private String author;
-    private String isbnNumber;
     private int pages;
+    private String isbnNumber;
 
-    public Book(String title, String author, String publisher,
-                int releaseDate, int pages) {
-        setTitle(title);
+    public Book(String s, String title, String publisher, int year,
+                String author, String isbnNumber, int pages) {
+        super(title, publisher, year);
         this.author = author;
-        setPublisher(publisher);
-        setYear(releaseDate);
-        this.pages = pages;
-    }
-
-    public Book(String title, String author, String namePublishingHouse,
-                int releaseDate, int pages, String isbnNumber) {
-        this(title, author, namePublishingHouse, releaseDate, pages);
         this.isbnNumber = isbnNumber;
+        this.pages = pages;
     }
 
     public String getAuthor() {
