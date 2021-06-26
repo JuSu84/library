@@ -46,8 +46,9 @@ public class Magazine extends Publication {
     }
 
     public void printInfo() {
-        String info = getTitle() + "; " + getPublisher() + "; " + getYear() + "-"
-                + month + "-" + day + "; " + language;
+        String info = "Tytuł " + getTitle() + "; Wydawnictwo " + getPublisher()
+                + "; Data wydania " + getYear() + "-"
+                + month + "-" + day + "; język: " + language;
         System.out.println(info);
     }
 }

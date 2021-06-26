@@ -33,7 +33,7 @@ public class DataReader {
         System.out.println("ISBN: ");
         String isbn = scanner.nextLine();
 
-        return new Book(title, publisher, author, year, author, isbn, pages);
+        return new Book(title, author, publisher, year, pages, isbn);
     }
 
     public Magazine createMagazine(){

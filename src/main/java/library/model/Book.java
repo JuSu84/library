@@ -13,8 +13,7 @@ public class Book extends Publication {
     private int pages;
     private String isbnNumber;
 
-    public Book(String s, String title, String publisher, int year,
-                String author, String isbnNumber, int pages) {
+    public Book(String title, String author, String publisher, int year, int pages, String isbnNumber) {
         super(title, publisher, year);
         this.author = author;
         this.isbnNumber = isbnNumber;
@@ -46,16 +45,15 @@ public class Book extends Publication {
     }
 
 
-    public String printInfo() {
-        String info = "title '" + getTitle() + '\'' +
-                ", author '" + author + '\'' +
-                ", \nPublishing House '" + getPublisher() + '\'' +
-                ", relase date: " + getYear() +
-                ", pages: " + pages;
+    public void printInfo() {
+        String info = "Tytuł " + getTitle() +
+                ", autor " + author +
+                ", \nWydawnictwo '" + getPublisher() +
+                ", rok wydania: " + getYear() +
+                ", ilość stron: " + pages;
         if (isbnNumber != null)
-            info = info + ", ISBN Number: '" + isbnNumber + '\'';
-
-        return info;
+            info = info + ", ISBN Number: '" + isbnNumber;
+        System.out.println(info);
 
     }
 }
