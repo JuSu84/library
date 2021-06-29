@@ -15,45 +15,40 @@ import library.model.Magazine;
 
 public class LibraryControl {
 
-    private static final int EXIT = 0;
-    private static final int ADD_BOOKS = 1;
-    private static final int ADD_MAGAZINES = 2;
-    private static final int SHOW_BOOKS = 3;
-    private static final int SHOW_MAGAZINES = 4;
-
     private Library library = new Library();
     private DataReader dataReader = new DataReader();
 
     public void controlLoop() {
-        int option;
+        Option option;
 
         do {
             printOptions();
-            option = dataReader.getInt();
+            option = Option.createFromInt(dataReader.getInt());
             switch (option) {
                 case EXIT:
                     exit();
                     break;
-                case ADD_BOOKS:
+                case ADD_BOOK:
                     addBook();
                     break;
-                case SHOW_BOOKS:
+                case PRINT_BOOKS:
                     printBooks();
                     break;
-                case ADD_MAGAZINES:
+                case ADD_MAGAZINE:
                     addMagazine();
                     break;
-                case SHOW_MAGAZINES:
+                case PRINT_MAGAZINES:
                     printMagazines();
                     break;
                 default:
                     System.out.println("Wybrałeś nieprawidłową opcj");
             }
-        }while (option != EXIT);
+        }while (option != Option.EXIT);
     }
 
     private void exit() {
         System.out.println("Zamykam Bibliotekę, do zobaczenia");
+        //zamykam strumień wejścia
         dataReader.close();
     }
 
@@ -77,10 +72,8 @@ public class LibraryControl {
 
     private void printOptions() {
         System.out.println("Wybierz opcje");
-        System.out.println(EXIT + " - wyjście z programu");
-        System.out.println(ADD_BOOKS + " - dodanie nowej ksiażki");
-        System.out.println(ADD_MAGAZINES + " - dodanie nowego magazynu");
-        System.out.println(SHOW_BOOKS + " - wyświetl dostępne książki");
-        System.out.println(SHOW_MAGAZINES + " - wyświetl dostępne magazyny");
+        for (Option option : Option.values()) {
+            System.out.println(option);
+        }
     }
 }

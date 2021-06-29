@@ -8,6 +8,8 @@
 
 package library.model;
 
+import java.util.Objects;
+
 public class Magazine extends Publication {
 
     private int month;
@@ -45,10 +47,23 @@ public class Magazine extends Publication {
         this.language = language;
     }
 
-    public void printInfo() {
-        String info = "Tytuł " + getTitle() + "; Wydawnictwo " + getPublisher()
-                + "; Data wydania " + getYear() + "-"
-                + month + "-" + day + "; język: " + language;
-        System.out.println(info);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Magazine magazine = (Magazine) o;
+        return month == magazine.month && day == magazine.day
+                && Objects.equals(language, magazine.language);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), month, day, language);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "-" + month + "-" + day + ", język: " + language;
     }
 }
