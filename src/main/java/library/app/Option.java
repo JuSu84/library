@@ -8,12 +8,14 @@
 
 package library.app;
 
+import library.exeption.NoSuchOptionException;
+
 public enum Option {
     EXIT(0, "Wyjście z programu"),
     ADD_BOOK(1, "Dodanie książki"),
     ADD_MAGAZINE(2, "Dodanie magazynu/gazety"),
     PRINT_BOOKS(3, "Wyświetlenie dostępnych książęk"),
-    PRINT_MAGAZINES(3, "Wyświetlenie dostępnych magazynów/gazet");
+    PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
 
     private int values;
     private String description;
@@ -36,7 +38,11 @@ public enum Option {
         return values + " - " + description;
     }
 
-    static Option createFromInt(int option){
-        return Option.values()[option];
+    static Option createFromInt(int option) throws NoSuchOptionException {
+        try {
+            return Option.values()[option];
+        }catch (ArrayIndexOutOfBoundsException e){
+            throw new NoSuchOptionException("Brak opcji wyboru o id: " + option);
+        }
     }
 }

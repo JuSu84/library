@@ -11,55 +11,62 @@ package library.io;
 import library.model.Book;
 import library.model.Magazine;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DataReader {
 
     private Scanner scanner = new Scanner(System.in);
+    private ConsolePrinter printer;
 
+    public DataReader(ConsolePrinter printer) {
+        this.printer = printer;
+    }
 
-    public Book createBook(){
-        System.out.println("Tytuł: ");
+    public Book createBook() {
+        printer.printLine("Tytuł: ");
         String title = scanner.nextLine();
-        System.out.println("Autor: ");
+        printer.printLine("Autor: ");
         String author = scanner.nextLine();
-        System.out.println("Wydawnictwo: ");
+        printer.printLine("Wydawnictwo: ");
         String publisher = scanner.nextLine();
-        System.out.println("Rok wydania: ");
-        int year = scanner.nextInt();
-        System.out.println("Ilość stron: ");
-        int pages = scanner.nextInt();
+        printer.printLine("Rok wydania: ");
+        int year = getInt();
+        printer.printLine("Ilość stron: ");
+        int pages = getInt();
         scanner.nextLine();
-        System.out.println("ISBN: ");
+        printer.printLine("ISBN: ");
         String isbn = scanner.nextLine();
 
         return new Book(title, author, publisher, year, pages, isbn);
     }
 
-    public Magazine createMagazine(){
-        System.out.println("Tytuł: ");
+    public Magazine createMagazine() {
+        printer.printLine("Tytuł: ");
         String title = scanner.nextLine();
-        System.out.println("Wydawnictwo: ");
+        printer.printLine("Wydawnictwo: ");
         String publisher = scanner.nextLine();
-        System.out.println("Język: ");
+        printer.printLine("Język: ");
         String language = scanner.nextLine();
-        System.out.println("Rok wydania: ");
+        printer.printLine("Rok wydania: ");
         int year = getInt();
-        System.out.println("Miesiąc: ");
+        printer.printLine("Miesiąc: ");
         int month = getInt();
-        System.out.println("Dzień: ");
+        printer.printLine("Dzień: ");
         int day = getInt();
 
         return new Magazine(title, publisher, year, month, day, language);
     }
 
-    public int getInt(){
-        int number = scanner.nextInt();
-        scanner.nextLine();
-        return number;
+    public int getInt() {
+        try {
+            return scanner.nextInt();
+        } finally {
+            scanner.nextLine();
+        }
     }
 
-    public void close(){
+    public void close() {
         scanner.close();
     }
 }
