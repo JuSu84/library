@@ -8,7 +8,9 @@
 
 package library.model;
 
-public class Library {
+import java.io.Serializable;
+
+public class Library implements Serializable {
 
     private static final int MAX_PUBLICATIONS = 3000;
     private Publication[] publications = new Publication[MAX_PUBLICATIONS];
@@ -37,14 +39,4 @@ public class Library {
         publications[publicationsNumber] = publication;
         publicationsNumber++;
     }
-
-//    @Override
-//    public String toString() {
-//        StringBuilder builder = new StringBuilder();
-//        for (int i = 0; i < publicationsNumber; i++) {
-//            builder.append(publications[i]);
-//            builder.append("\n");
-//        }
-//        return builder.toString();
-//    }
 }

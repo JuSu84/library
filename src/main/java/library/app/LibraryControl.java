@@ -8,9 +8,13 @@
 
 package library.app;
 
+import library.exeption.DataExportException;
+import library.exeption.DataImportException;
 import library.exeption.NoSuchOptionException;
 import library.io.ConsolePrinter;
 import library.io.DataReader;
+import library.io.file.FileManager;
+import library.io.file.FileManagerBuilder;
 import library.model.Book;
 import library.model.Library;
 import library.model.Magazine;
@@ -21,10 +25,22 @@ import java.util.InputMismatchException;
 class LibraryControl {
 
     private ConsolePrinter printer = new ConsolePrinter();
-    private Library library = new Library();
+    private Library library;
     private DataReader dataReader = new DataReader(printer);
+    private FileManager fileManager;
 
-    public void controlLoop() {
+    LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+        try {
+            library = fileManager.importData();
+        } catch (DataImportException e) {
+            printer.printLine(e.getMessage());
+            printer.printLine("Stworzono nową bazę.");
+            library = new Library();
+        }
+    }
+
+    void controlLoop() {
         Option option;
 
         do {
@@ -61,7 +77,7 @@ class LibraryControl {
                 optionOk = true;
             } catch (NoSuchOptionException e) {
                 printer.printLine(e.getMessage() + ", podaj ponownie");
-            }  catch (InputMismatchException ignored) {
+            } catch (InputMismatchException ignored) {
                 printer.printLine("Wprowadzono wartość, która nie jest liczbą, podaj ponownie:");
             }
         }
@@ -69,6 +85,12 @@ class LibraryControl {
     }
 
     private void exit() {
+        try {
+            fileManager.exportData(library);
+            printer.printLine("Eksport danych do pliku zakończony powodzeniem");
+        } catch (DataExportException e) {
+            printer.printLine(e.getMessage());
+        }
         printer.printLine("Zamykam Bibliotekę, do zobaczenia");
         //zamykam strumień wejścia
         dataReader.close();
@@ -87,7 +109,7 @@ class LibraryControl {
 
     private void printBooks() {
         Publication[] publications = library.getPublications();
-        printer.printMagazines(publications);
+        printer.printBooks(publications);
     }
 
     private void addMagazine() {
@@ -110,6 +132,35 @@ class LibraryControl {
         printer.printLine("Wybierz opcje");
         for (Option option : Option.values()) {
             printer.printLine(option.toString());
+        }
+    }
+
+    private enum Option {
+        EXIT(0, "Wyjście z programu"),
+        ADD_BOOK(1, "Dodanie książki"),
+        ADD_MAGAZINE(2, "Dodanie magazynu/gazety"),
+        PRINT_BOOKS(3, "Wyświetlenie dostępnych książęk"),
+        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
+
+        private int values;
+        private String description;
+
+        Option(int values, String description) {
+            this.values = values;
+            this.description = description;
+        }
+
+        @Override
+        public String toString() {
+            return values + " - " + description;
+        }
+
+        static Option createFromInt(int option) throws NoSuchOptionException {
+            try {
+                return Option.values()[option];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new NoSuchOptionException("Brak opcji wyboru o id: " + option);
+            }
         }
     }
 }

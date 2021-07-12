@@ -11,7 +11,6 @@ package library.io;
 import library.model.Book;
 import library.model.Magazine;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DataReader {
@@ -34,7 +33,6 @@ public class DataReader {
         int year = getInt();
         printer.printLine("Ilość stron: ");
         int pages = getInt();
-        scanner.nextLine();
         printer.printLine("ISBN: ");
         String isbn = scanner.nextLine();
 
@@ -64,6 +62,10 @@ public class DataReader {
         } finally {
             scanner.nextLine();
         }
+    }
+
+    public String getString() {
+        return scanner.nextLine();
     }
 
     public void close() {
