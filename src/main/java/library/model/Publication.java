@@ -60,6 +60,8 @@ public abstract class Publication implements Serializable {
         return Objects.hash(title, publisher, year);
     }
 
+    public abstract String toCsv();
+
     @Override
     public String toString() {
         return "Tytuł: " + title + ", wydawnictwo: " + publisher + ", rok wydania: " + year;

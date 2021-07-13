@@ -6,8 +6,10 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package library.io.file;
+package library.exeption;
 
-public enum FileType {
-    SERIAL, CSV
+public class InvalidDataException extends RuntimeException {
+    public InvalidDataException(String message) {
+        super(message);
+    }
 }

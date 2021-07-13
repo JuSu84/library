@@ -11,6 +11,7 @@ package library.model;
 import java.util.Objects;
 
 public class Book extends Publication {
+    public static final String TYPE = "Książka";
     private String author;
     private int pages;
     private String isbnNumber;
@@ -59,6 +60,17 @@ public class Book extends Publication {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), author, pages, isbnNumber);
+    }
+
+    @Override
+    public String toCsv() {
+        return TYPE + ";" +
+                getTitle() + ";" +
+                author + ";" +
+                getPublisher() + ";" +
+                getYear() + ";" +
+                pages + ";" +
+                isbnNumber;
     }
 
     @Override

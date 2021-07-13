@@ -29,6 +29,8 @@ public class FileManagerBuilder {
         switch (fileType){
             case SERIAL:
                 return new SerializableFileManager();
+            case CSV:
+                return new CsvFileManager();
             default:
                 throw new NoSuchFileTypeException("Nieobsugiwany typ danych");
         }
@@ -39,7 +41,7 @@ public class FileManagerBuilder {
         FileType result = null;
         do {
             printTypes();
-            //serial, SERIAL
+            //serial, SERIAL, CSV
             String type = reader.getString().toUpperCase(Locale.ROOT);
             try{
                 result = FileType.valueOf(type);

@@ -44,14 +44,14 @@ public class DataReader {
         String title = scanner.nextLine();
         printer.printLine("Wydawnictwo: ");
         String publisher = scanner.nextLine();
-        printer.printLine("Język: ");
-        String language = scanner.nextLine();
         printer.printLine("Rok wydania: ");
         int year = getInt();
         printer.printLine("Miesiąc: ");
         int month = getInt();
         printer.printLine("Dzień: ");
         int day = getInt();
+        printer.printLine("Język: ");
+        String language = scanner.nextLine();
 
         return new Magazine(title, publisher, year, month, day, language);
     }

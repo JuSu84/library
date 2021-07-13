@@ -10,6 +10,7 @@ package library.app;
 
 import library.exeption.DataExportException;
 import library.exeption.DataImportException;
+import library.exeption.InvalidDataException;
 import library.exeption.NoSuchOptionException;
 import library.io.ConsolePrinter;
 import library.io.DataReader;
@@ -33,7 +34,8 @@ class LibraryControl {
         fileManager = new FileManagerBuilder(printer, dataReader).build();
         try {
             library = fileManager.importData();
-        } catch (DataImportException e) {
+            printer.printLine("Zaimportowano dane z pliku");
+        } catch (DataImportException | InvalidDataException e) {
             printer.printLine(e.getMessage());
             printer.printLine("Stworzono nową bazę.");
             library = new Library();
@@ -99,7 +101,7 @@ class LibraryControl {
     private void addBook() {
         try {
             Book book = dataReader.createBook();
-            library.addBook(book);
+            library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć magazynu, błędnie wprowadzone dane");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -115,7 +117,7 @@ class LibraryControl {
     private void addMagazine() {
         try {
             Magazine magazine = dataReader.createMagazine();
-            library.addMagazine(magazine);
+            library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć książki, błędnie wprowadzone dane");
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -125,7 +127,7 @@ class LibraryControl {
 
     private void printMagazines() {
         Publication[] publications = library.getPublications();
-        printer.printBooks(publications);
+        printer.printMagazines(publications);
     }
 
     private void printOptions() {
