@@ -9,11 +9,12 @@
 package library.model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class Library implements Serializable {
 
-    private static final int MAX_PUBLICATIONS = 3000;
-    private Publication[] publications = new Publication[MAX_PUBLICATIONS];
+    private static final int INITIAL_CAPACITY = 1;
+    private Publication[] publications = new Publication[INITIAL_CAPACITY];
     private int publicationsNumber;
 
     public Publication[] getPublications() {
@@ -24,11 +25,33 @@ public class Library implements Serializable {
         return result;
     }
 
-    public void addPublication(Publication publication){
-        if (publicationsNumber >= MAX_PUBLICATIONS){
-            throw new ArrayIndexOutOfBoundsException("Max publication exceeded " + MAX_PUBLICATIONS);
+    public void addPublication(Publication publication) {
+        if (publicationsNumber == publications.length) {
+            publications = Arrays.copyOf(publications, publications.length + 10);
         }
         publications[publicationsNumber] = publication;
         publicationsNumber++;
+    }
+
+    public boolean removePublication(Publication publication) {
+        final int NOT_FOUND = -1;
+        int found = NOT_FOUND;
+        for (int i = 0; i < publicationsNumber && found == NOT_FOUND; i++) {
+            if (publication.equals(publications[i])) {
+                found = i;
+            }
+        }
+        if (found != NOT_FOUND) {
+            System.arraycopy(publications,
+                    found + 1,
+                    publications,
+                    found,
+                    publications.length - found
+                            - 1);
+            publicationsNumber--;
+            publications[publicationsNumber] = null;
+            return true;
+        }
+        return false;
     }
 }

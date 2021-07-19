@@ -20,7 +20,9 @@ import library.model.Book;
 import library.model.Library;
 import library.model.Magazine;
 import library.model.Publication;
+import library.model.comparator.AlphabeticalComparator;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -64,11 +66,18 @@ class LibraryControl {
                 case PRINT_MAGAZINES:
                     printMagazines();
                     break;
+                case DELETE_BOOK:
+                    deleteBook();
+                    break;
+                case DELETE_MAGAZINE:
+                    deleteMagazine();
+                    break;
                 default:
                     printer.printLine("Wybrałeś nieprawidłową opcj");
             }
         } while (option != Option.EXIT);
     }
+
 
     private Option getOption() {
         boolean optionOk = false;
@@ -100,7 +109,7 @@ class LibraryControl {
 
     private void addBook() {
         try {
-            Book book = dataReader.createBook();
+            Book book = dataReader.readAndCreateBook();
             library.addPublication(book);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć magazynu, błędnie wprowadzone dane");
@@ -109,14 +118,27 @@ class LibraryControl {
         }
     }
 
+    private void deleteBook() {
+        try {
+            Book book = dataReader.readAndCreateBook();
+            if (library.removePublication(book)) {
+                System.out.println("Pomyśnie usunięto książkę");
+            } else
+                System.out.println("Brak wskazanej książki");
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udało się usunąć książki, niepoprawne dane");
+        }
+    }
+
     private void printBooks() {
-        Publication[] publications = library.getPublications();
+        Publication[] publications = getSortedPublications();
         printer.printBooks(publications);
     }
 
+
     private void addMagazine() {
         try {
-            Magazine magazine = dataReader.createMagazine();
+            Magazine magazine = dataReader.readAndCreateMagazine();
             library.addPublication(magazine);
         } catch (InputMismatchException e) {
             printer.printLine("Nie udało się utworzyć książki, błędnie wprowadzone dane");
@@ -125,10 +147,23 @@ class LibraryControl {
         }
     }
 
+    private void deleteMagazine() {
+        try {
+            Magazine magazine = dataReader.readAndCreateMagazine();
+            if (library.removePublication(magazine)) {
+                System.out.println("Pomyśnie usunięto magazyn");
+            } else
+                System.out.println("Brak wskazanego magazynu");
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udało się usunąć magazynu, niepoprawne dane");
+        }
+    }
+
     private void printMagazines() {
-        Publication[] publications = library.getPublications();
+        Publication[] publications = getSortedPublications();
         printer.printMagazines(publications);
     }
+
 
     private void printOptions() {
         printer.printLine("Wybierz opcje");
@@ -142,7 +177,9 @@ class LibraryControl {
         ADD_BOOK(1, "Dodanie książki"),
         ADD_MAGAZINE(2, "Dodanie magazynu/gazety"),
         PRINT_BOOKS(3, "Wyświetlenie dostępnych książęk"),
-        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet");
+        PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet"),
+        DELETE_BOOK(5, "Usuń książkę"),
+        DELETE_MAGAZINE(6, "Usuń magazyn");
 
         private int values;
         private String description;
@@ -164,5 +201,10 @@ class LibraryControl {
                 throw new NoSuchOptionException("Brak opcji wyboru o id: " + option);
             }
         }
+    }
+    private Publication[] getSortedPublications() {
+        Publication[] publications = library.getPublications();
+        Arrays.sort(publications, new AlphabeticalComparator());
+        return publications;
     }
 }

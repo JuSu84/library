@@ -22,7 +22,7 @@ public class DataReader {
         this.printer = printer;
     }
 
-    public Book createBook() {
+    public Book readAndCreateBook() {
         printer.printLine("Tytuł: ");
         String title = scanner.nextLine();
         printer.printLine("Autor: ");
@@ -39,7 +39,7 @@ public class DataReader {
         return new Book(title, author, publisher, year, pages, isbn);
     }
 
-    public Magazine createMagazine() {
+    public Magazine readAndCreateMagazine() {
         printer.printLine("Tytuł: ");
         String title = scanner.nextLine();
         printer.printLine("Wydawnictwo: ");
