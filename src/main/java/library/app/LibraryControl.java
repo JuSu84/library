@@ -8,21 +8,12 @@
 
 package library.app;
 
-import library.exeption.DataExportException;
-import library.exeption.DataImportException;
-import library.exeption.InvalidDataException;
-import library.exeption.NoSuchOptionException;
+import library.exeption.*;
 import library.io.ConsolePrinter;
 import library.io.DataReader;
 import library.io.file.FileManager;
 import library.io.file.FileManagerBuilder;
-import library.model.Book;
-import library.model.Library;
-import library.model.Magazine;
-import library.model.Publication;
-import library.model.comparator.AlphabeticalComparator;
-
-import java.util.Arrays;
+import library.model.*;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -51,9 +42,6 @@ class LibraryControl {
             printOptions();
             option = getOption();
             switch (option) {
-                case EXIT:
-                    exit();
-                    break;
                 case ADD_BOOK:
                     addBook();
                     break;
@@ -72,10 +60,32 @@ class LibraryControl {
                 case DELETE_MAGAZINE:
                     deleteMagazine();
                     break;
+                case ADD_USER:
+                    addUser();
+                    break;
+                case PRINT_USERS:
+                    printUsers();
+                    break;
+                case EXIT:
+                    exit();
+                    break;
                 default:
                     printer.printLine("Wybrałeś nieprawidłową opcj");
             }
         } while (option != Option.EXIT);
+    }
+
+    private void printUsers() {
+        printer.printUsers(library.getUsers().values());
+    }
+
+    private void addUser() {
+        LibraryUser libraryUser = dataReader.createLibraryUser();
+        try {
+            library.addUser(libraryUser);
+        }catch (UserAlreadyExistException e){
+            printer.printLine(e.getMessage());
+        }
     }
 
 
@@ -131,8 +141,7 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        Publication[] publications = getSortedPublications();
-        printer.printBooks(publications);
+        printer.printBooks(library.getPublications().values());
     }
 
 
@@ -160,8 +169,7 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        Publication[] publications = getSortedPublications();
-        printer.printMagazines(publications);
+        printer.printMagazines(library.getPublications().values());
     }
 
 
@@ -179,7 +187,9 @@ class LibraryControl {
         PRINT_BOOKS(3, "Wyświetlenie dostępnych książęk"),
         PRINT_MAGAZINES(4, "Wyświetlenie dostępnych magazynów/gazet"),
         DELETE_BOOK(5, "Usuń książkę"),
-        DELETE_MAGAZINE(6, "Usuń magazyn");
+        DELETE_MAGAZINE(6, "Usuń magazyn"),
+        ADD_USER(7, "Dodaj użytkownika"),
+        PRINT_USERS(8, "Wyswietl użytkowników");
 
         private int values;
         private String description;
@@ -201,10 +211,5 @@ class LibraryControl {
                 throw new NoSuchOptionException("Brak opcji wyboru o id: " + option);
             }
         }
-    }
-    private Publication[] getSortedPublications() {
-        Publication[] publications = library.getPublications();
-        Arrays.sort(publications, new AlphabeticalComparator());
-        return publications;
     }
 }
