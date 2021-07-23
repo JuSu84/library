@@ -8,7 +8,7 @@
 
 package library.exeption;
 
-public class DataImportException extends RuntimeException{
+public class DataImportException extends RuntimeException {
     public DataImportException(String message) {
         super(message);
     }

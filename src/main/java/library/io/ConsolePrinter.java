@@ -17,7 +17,7 @@ import java.util.Collection;
 
 public class ConsolePrinter {
 
-    public void printMagazines(Collection<Publication> publications ) {
+    public void printMagazines(Collection<Publication> publications) {
         int countMagazines = 0;
         for (Publication publication : publications) {
             if (publication instanceof Magazine) {
@@ -43,13 +43,13 @@ public class ConsolePrinter {
         }
     }
 
-    public void printUsers(Collection<LibraryUser> users){
+    public void printUsers(Collection<LibraryUser> users) {
         for (LibraryUser user : users) {
             printLine(user.toString());
         }
     }
 
-    public void printLine(String text){
+    public void printLine(String text) {
         System.out.println(text);
     }
 }

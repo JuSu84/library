@@ -6,11 +6,8 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-package library.exeption;
+package library.model;
 
-public class NoSuchOptionException extends Exception {
-
-    public NoSuchOptionException(String message) {
-        super(message);
-    }
+public interface CsvConvertible {
+    String toCsv();
 }

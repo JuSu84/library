@@ -12,9 +12,7 @@ import library.exeption.PublicationAlreadyExistException;
 import library.exeption.UserAlreadyExistException;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Library implements Serializable {
 
@@ -24,23 +22,36 @@ public class Library implements Serializable {
     public Map<String, Publication> getPublications() {
         return publications;
     }
+    public Collection<Publication> getSortedPublication(Comparator<Publication> comparator){
+        ArrayList<Publication> list = new ArrayList<>(this.publications.values());
+        list.sort(comparator);
+        return list;
+    }
 
     public Map<String, LibraryUser> getUsers() {
         return users;
     }
 
-    public void addPublication(Publication publication) {
-        if (publications.containsKey(publication.getTitle())){
-            throw new PublicationAlreadyExistException(
-                    "Istnieje już publikacja o tytule  " + publication.getTitle());
-        }publications.put(publication.getTitle(), publication);
+    public Collection<LibraryUser> getSortedLibraryUser(Comparator<LibraryUser> comparator){
+        ArrayList<LibraryUser> list = new ArrayList<>(this.users.values());
+        list.sort(comparator);
+        return list;
     }
 
-    public void addUser(LibraryUser user){
-        if (users.containsKey(user.getPesel())){
+    public void addPublication(Publication publication) {
+        if (publications.containsKey(publication.getTitle())) {
+            throw new PublicationAlreadyExistException(
+                    "Istnieje już publikacja o tytule  " + publication.getTitle());
+        }
+        publications.put(publication.getTitle(), publication);
+    }
+
+    public void addUser(LibraryUser user) {
+        if (users.containsKey(user.getPesel())) {
             throw new UserAlreadyExistException(
                     "Istnieje już użytkownik o peselu " + user.getPesel());
-        }users.put(user.getPesel(), user);
+        }
+        users.put(user.getPesel(), user);
     }
 
     public boolean removePublication(Publication p) {

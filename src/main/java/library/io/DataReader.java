@@ -57,7 +57,7 @@ public class DataReader {
         return new Magazine(title, publisher, year, month, day, language);
     }
 
-    public LibraryUser createLibraryUser(){
+    public LibraryUser createLibraryUser() {
         printer.printLine("Imię");
         String firstName = scanner.nextLine();
         printer.printLine("Nazwisko");

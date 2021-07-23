@@ -23,10 +23,10 @@ public class FileManagerBuilder {
         this.reader = reader;
     }
 
-    public FileManager build(){
+    public FileManager build() {
         printer.printLine("Wybierz format danych");
         FileType fileType = getFileType();
-        switch (fileType){
+        switch (fileType) {
             case SERIAL:
                 return new SerializableFileManager();
             case CSV:
@@ -43,13 +43,13 @@ public class FileManagerBuilder {
             printTypes();
             //serial, SERIAL, CSV
             String type = reader.getString().toUpperCase(Locale.ROOT);
-            try{
+            try {
                 result = FileType.valueOf(type);
                 typeOk = true;
-            }catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 printer.printLine("Nieobsługiwany typ danych, wybierz ponownie");
             }
-        }while (!typeOk);
+        } while (!typeOk);
         return result;
     }
 

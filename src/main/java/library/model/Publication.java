@@ -11,7 +11,7 @@ package library.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Publication implements Serializable, Comparable<Publication> {
+public abstract class Publication implements Serializable, Comparable<Publication>, CsvConvertible {
 
     private String title;
     private String publisher;
@@ -60,8 +60,6 @@ public abstract class Publication implements Serializable, Comparable<Publicatio
         return Objects.hash(title, publisher, year);
     }
 
-    public abstract String toCsv();
-
     @Override
     public String toString() {
         return "Tytuł: " + title + ", wydawnictwo: " + publisher + ", rok wydania: " + year;
@@ -69,6 +67,6 @@ public abstract class Publication implements Serializable, Comparable<Publicatio
 
     @Override
     public int compareTo(Publication o) {
-        return  title.compareToIgnoreCase(o.title);
+        return title.compareToIgnoreCase(o.title);
     }
 }

@@ -11,7 +11,7 @@ package library.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-abstract class User implements Serializable {
+abstract class User implements Serializable, CsvConvertible {
     private String firstName;
     private String lastName;
     private String pesel;
@@ -45,14 +45,15 @@ abstract class User implements Serializable {
     public void setPesel(String pesel) {
         this.pesel = pesel;
     }
-    public abstract String toCsv();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(pesel, user.pesel);
+        return Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(pesel, user.pesel);
     }
 
     @Override

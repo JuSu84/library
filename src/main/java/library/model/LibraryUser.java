@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class LibraryUser extends User{
+public class LibraryUser extends User {
     private List<Publication> publicationHistory = new ArrayList<>();
     private List<Publication> borrowedPublications = new ArrayList<>();
 
@@ -28,16 +28,16 @@ public class LibraryUser extends User{
         return borrowedPublications;
     }
 
-    public void addPublicationToHistory(Publication p){
+    public void addPublicationToHistory(Publication p) {
         publicationHistory.add(p);
     }
 
-    public void borrowPublications(Publication p){
+    public void borrowPublications(Publication p) {
         borrowedPublications.add(p);
     }
 
-    public boolean returnPublication(Publication p){
-        if (borrowedPublications.contains(p)){
+    public boolean returnPublication(Publication p) {
+        if (borrowedPublications.contains(p)) {
             borrowedPublications.remove(p);
             addPublicationToHistory(p);
             return true;

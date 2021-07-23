@@ -14,6 +14,9 @@ import library.io.DataReader;
 import library.io.file.FileManager;
 import library.io.file.FileManagerBuilder;
 import library.model.*;
+import library.model.comparator.AlphabeticalTitleComparator;
+
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -76,14 +79,19 @@ class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getUsers().values());
+        printer.printUsers(library.getSortedLibraryUser(new Comparator<LibraryUser>() {
+            @Override
+            public int compare(LibraryUser o1, LibraryUser o2) {
+                return o1.getLastName().compareToIgnoreCase(o2.getLastName());
+            }
+        }));
     }
 
     private void addUser() {
         LibraryUser libraryUser = dataReader.createLibraryUser();
         try {
             library.addUser(libraryUser);
-        }catch (UserAlreadyExistException e){
+        } catch (UserAlreadyExistException e) {
             printer.printLine(e.getMessage());
         }
     }
@@ -135,13 +143,13 @@ class LibraryControl {
                 System.out.println("Pomyśnie usunięto książkę");
             } else
                 System.out.println("Brak wskazanej książki");
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             printer.printLine("Nie udało się usunąć książki, niepoprawne dane");
         }
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublication(new AlphabeticalTitleComparator()));
     }
 
 
@@ -163,13 +171,13 @@ class LibraryControl {
                 System.out.println("Pomyśnie usunięto magazyn");
             } else
                 System.out.println("Brak wskazanego magazynu");
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             printer.printLine("Nie udało się usunąć magazynu, niepoprawne dane");
         }
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublication(new AlphabeticalTitleComparator()));
     }
 
 
