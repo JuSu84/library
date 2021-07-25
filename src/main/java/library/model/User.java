@@ -63,7 +63,7 @@ abstract class User implements Serializable, CsvConvertible {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + ", pesel: " + pesel;
+        return lastName + " " + firstName + ", pesel: " + pesel;
     }
 
 }

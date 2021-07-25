@@ -14,9 +14,8 @@ import library.io.DataReader;
 import library.io.file.FileManager;
 import library.io.file.FileManagerBuilder;
 import library.model.*;
-import library.model.comparator.AlphabeticalTitleComparator;
 
-import java.util.Comparator;
+
 import java.util.InputMismatchException;
 
 class LibraryControl {
@@ -79,12 +78,9 @@ class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getSortedLibraryUser(new Comparator<LibraryUser>() {
-            @Override
-            public int compare(LibraryUser o1, LibraryUser o2) {
-                return o1.getLastName().compareToIgnoreCase(o2.getLastName());
-            }
-        }));
+        printer.printUsers(library.getSortedLibraryUser(
+                (o1, o2) ->  o1.getLastName().compareToIgnoreCase(o2.getLastName())
+        ));
     }
 
     private void addUser() {
@@ -149,7 +145,9 @@ class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getSortedPublication(new AlphabeticalTitleComparator()));
+        printer.printBooks(library.getSortedPublication(
+                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+                ));
     }
 
 
@@ -177,7 +175,9 @@ class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getSortedPublication(new AlphabeticalTitleComparator()));
+        printer.printMagazines(library.getSortedPublication(
+                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+        ));
     }
 
 
