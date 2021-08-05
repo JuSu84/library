@@ -16,7 +16,9 @@ import library.io.file.FileManagerBuilder;
 import library.model.*;
 
 
+import java.util.Comparator;
 import java.util.InputMismatchException;
+import java.util.Locale;
 
 class LibraryControl {
 
@@ -68,6 +70,9 @@ class LibraryControl {
                 case PRINT_USERS:
                     printUsers();
                     break;
+                case FIND_PUBLICATION:
+                    findPublicationByTitle();
+                    break;
                 case EXIT:
                     exit();
                     break;
@@ -77,9 +82,21 @@ class LibraryControl {
         } while (option != Option.EXIT);
     }
 
+    private void findPublicationByTitle() {
+        printer.printLine("Wpisz tytuł publikacji którą chcesz zanleźć");
+        String title = dataReader.getString();
+        String notFoundMessage = "Brak publikacji o podanym tytule";
+        library.findPublicationByTitle(title)
+//                .filter(p -> p.getTitle().equalsIgnoreCase(title))
+                .map(Publication::toString)
+                .ifPresentOrElse(System.out::println, () -> System.out.println(notFoundMessage));
+
+    }
+
     private void printUsers() {
         printer.printUsers(library.getSortedLibraryUser(
-                (o1, o2) ->  o1.getLastName().compareToIgnoreCase(o2.getLastName())
+//                (o1, o2) ->  o1.getLastName().compareToIgnoreCase(o2.getLastName())
+                Comparator.comparing(User::getLastName, String.CASE_INSENSITIVE_ORDER)
         ));
     }
 
@@ -146,7 +163,8 @@ class LibraryControl {
 
     private void printBooks() {
         printer.printBooks(library.getSortedPublication(
-                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
                 ));
     }
 
@@ -176,7 +194,8 @@ class LibraryControl {
 
     private void printMagazines() {
         printer.printMagazines(library.getSortedPublication(
-                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+//                (p1, p2) -> p1.getTitle().compareToIgnoreCase(p2.getTitle())
+                Comparator.comparing(Publication::getTitle, String.CASE_INSENSITIVE_ORDER)
         ));
     }
 
@@ -197,7 +216,8 @@ class LibraryControl {
         DELETE_BOOK(5, "Usuń książkę"),
         DELETE_MAGAZINE(6, "Usuń magazyn"),
         ADD_USER(7, "Dodaj użytkownika"),
-        PRINT_USERS(8, "Wyswietl użytkowników");
+        PRINT_USERS(8, "Wyswietl użytkowników"),
+        FIND_PUBLICATION(9, "Wyszukaj publikację po tytule");
 
         private int values;
         private String description;

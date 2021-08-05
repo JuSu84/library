@@ -18,35 +18,31 @@ import java.util.Collection;
 public class ConsolePrinter {
 
     public void printMagazines(Collection<Publication> publications) {
-        int countMagazines = 0;
-        for (Publication publication : publications) {
-            if (publication instanceof Magazine) {
-                printLine(publication.toString());
-                countMagazines++;
-            }
-        }
+        long countMagazines = publications.stream()
+                .filter(p -> p instanceof Magazine)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
         if (countMagazines == 0) {
             printLine("Brak zapisanych magazynów");
         }
     }
 
     public void printBooks(Collection<Publication> publications) {
-        int countBooks = 0;
-        for (Publication publication : publications) {
-            if (publication instanceof Book) {
-                printLine(publication.toString());
-                countBooks++;
-            }
-        }
+        long countBooks = publications.stream()
+                .filter(p -> p instanceof Book)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
         if (countBooks == 0) {
             printLine("Brak zapisanych książek");
         }
     }
 
     public void printUsers(Collection<LibraryUser> users) {
-        for (LibraryUser user : users) {
-            printLine(user.toString());
-        }
+        users.stream()
+                .map(LibraryUser::toString)
+                .forEach(this::printLine);
     }
 
     public void printLine(String text) {

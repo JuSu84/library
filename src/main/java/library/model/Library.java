@@ -22,7 +22,14 @@ public class Library implements Serializable {
     public Map<String, Publication> getPublications() {
         return publications;
     }
-    public Collection<Publication> getSortedPublication(Comparator<Publication> comparator){
+
+    public Optional<Publication> findPublicationByTitle(String title) {
+        Optional<Publication> publication = Optional.ofNullable(publications.get(title));
+            return publication.filter(p -> p.getTitle().equalsIgnoreCase(title));
+//            return Optional.ofNullable(publications.get(title));
+    }
+
+    public Collection<Publication> getSortedPublication(Comparator<Publication> comparator) {
         ArrayList<Publication> list = new ArrayList<>(this.publications.values());
         list.sort(comparator);
         return list;
@@ -32,7 +39,7 @@ public class Library implements Serializable {
         return users;
     }
 
-    public Collection<LibraryUser> getSortedLibraryUser(Comparator<LibraryUser> comparator){
+    public Collection<LibraryUser> getSortedLibraryUser(Comparator<LibraryUser> comparator) {
         ArrayList<LibraryUser> list = new ArrayList<>(this.users.values());
         list.sort(comparator);
         return list;
